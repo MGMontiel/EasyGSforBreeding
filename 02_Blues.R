@@ -5,34 +5,20 @@ library(lme4)
 library(car)
 
 # Reading data --------------------------------------------------------------
-setwd("~/LSU Maria Montiel/Projects/project_mp/project_mp_01paper/project_mp_epistasis/Metrics-blups/")
+setwd("")
 
 # Phenotype -----------------------------------------------------------------
-pheno.v0 <- read.csv("project_21mp2_2.csv", header = T)
+pheno.v0 <- read.csv("pheno", header = T)
 #pheno.v0$Grain.length.average.LSU_01.0000102
 
 # checking outliers from the pheno ------------------------------------------
 
 # outlier detection and elimination
-fit <- lm(Yield.LSU_01.0000138 ~ germplasmName, data = pheno.v0)
+fit <- lm(yield ~ germplasmName, data = pheno.v0)
 (outlier <- names(outlierTest(fit)$p))
-pheno.v0[outlier, "Yield.LSU_01.0000138"] <- NA
+pheno.v0[outlier, "yield"] <- NA
 
-fit <- lm(Days.to.heading.LSU_01.0000130 ~ germplasmName, data = pheno.v0)
-(outlier <- names(outlierTest(fit)$p))
-pheno.v0[outlier, "Days.to.heading.LSU_01.0000130"] <- NA
 
-fit <- lm(Grain.length.average.LSU_01.0000102 ~ germplasmName, data = pheno.v0)
-(outlier <- names(outlierTest(fit)$p))
-pheno.v0[outlier, "Grain.length.average.LSU_01.0000102"] <- NA
-
-fit <- lm(Chalk.impact.LSU_01.0000108 ~ germplasmName, data = pheno.v0)
-(outlier <- names(outlierTest(fit)$p))
-pheno.v0[outlier, "Chalk.impact.LSU_01.0000108"] <- NA
-
-fit <- lm(Whole.milling.percentage.LSU_01.0000100 ~ germplasmName, data = pheno.v0)
-(outlier <- names(outlierTest(fit)$p))
-pheno.v0[outlier, "Whole.milling.percentage.LSU_01.0000100"] <- NA
 
 # Adjust phenotype by the spatial trends
 pheno.v1 <- pheno.v0
@@ -46,9 +32,10 @@ ncol <- max(pheno.v1$colNumber)
 nseg.row <- nrow
 nseg.col <- ncol
 
-trait_columns <- c("Yield.LSU_01.0000138", "Days.to.heading.LSU_01.0000130", "Whole.milling.percentage.LSU_01.0000100", 
-                   "Chalk.impact.LSU_01.0000108")#,
-                   #"Grain.length.average.LSU_01.0000102",
+#this is a loop to do for all traits at once
+trait_columns <- c("yield", "dth", "milling", 
+                   "chalk")#,
+                   #"grain_length",
                   
 
 # Initialize a list to store adjusted results for each trait

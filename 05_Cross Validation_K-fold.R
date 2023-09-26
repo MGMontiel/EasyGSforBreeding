@@ -9,22 +9,17 @@ setwd("~/LSU Maria Montiel/Projects/project_mp/project_mp_01paper/project_mp_epi
 my_palette <- c("#EE3A8C", "#4682B4", "#2F4F4F","#FFA500")
 
 
-######------------------MP2 2020-----------------------######
-#pheno1 <- read.csv("21_MP2_1_blues_w.csv")
-#pheno2 <- read.csv("21_MP2_2_blues_w.csv")
-#pheno <- rbind(pheno1, pheno2)
+######------------------Cross Validation K Fold-----------------------######
 
-pheno <- read.csv("22_MP6-8_2_blues_w.csv")
+
+pheno <- read.csv("blues_corrected_spatial.csv")
 geno <- readRDS("geno.last.rds")
 geno.v <- geno[rownames(geno) %in% pheno$germplasmName, ]
 G_mat <- A.mat(X=as.matrix(geno.v), min.MAF = .05)
 G_e_mat <- E.mat(X=as.matrix(geno.v), min.MAF = .05)
 pheno$germplasmName2 <- pheno$germplasmName
 
-#pheno$Ratoon.yield.LSU_01.0000141
-#str(pheno)
 
-pheno$milling <- as.numeric(pheno$milling)
 
 ID <- colnames(pheno)[1]
 res1 <- data.frame()
@@ -77,10 +72,7 @@ for (r in 1:25){
   }
 }
 
-write.csv(res1, "22_MP6-8_2_CV_A.csv")
+write.csv(res1, "CV.csv")
 
-mm.gb$U$`u:germplasmName`
-mm.gb$U$`u:germplasmName2`
-names(mm.gb$U$`u:germplasmName2`)==names(mm.gb$U$`u:germplasmName`)
-
+## fin
 

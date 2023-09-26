@@ -4,13 +4,13 @@ library(ggplot2)
 
 ##### Working Directory and Data Loading ####
 
-setwd("~/LSU Maria Montiel/Projects/project_mp/project_mp_01paper/project_mp_epistasis/Predictions/BLUPs/")
+setwd("")
 
 #### Training set
-pheno.tr <- read.csv("20-21_MP2_blups.csv",header = T)
+pheno.tr <- read.csv("Training.csv",header = T)
 
 #### Validation Set
-pheno.v0 <- read.csv("21-22_MP6-8_blups.csv",header = T)
+pheno.v0 <- read.csv("prediction.csv",header = T)
 pheno.tr2 <- pheno.tr[!pheno.tr$germplasmName %in% pheno.v0$germplasmName,]
 
 ### All Phenotype
@@ -32,7 +32,7 @@ mm.gp <- mmer(fixed = chalk ~ 1,
               data = droplevels(pheno.all[pheno.all$germplasmName %in% rownames(geno.all),])
 )
 
-pheno.v0 <- read.csv("21-22_MP6-8_blups.csv",header = T)
+pheno.v0 <- read.csv("prediction.csv",header = T)
 gebv.blup <- merge(pheno.v0, 
                    data.frame(germplasmName=names(mm.gp$U$`u:germplasmName`$chalk),
                               gebv=as.numeric(mm.gp$U$`u:germplasmName`$chalk)),

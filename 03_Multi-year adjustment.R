@@ -4,26 +4,21 @@ library(SpATS)
 
 ##### set working directory###
 
-setwd("~/LSU Maria Montiel/Projects/project_mp/project_mp_01paper/project_mp_epistasis/Metrics-blups/BLUES/blups-weighted/")
+setwd("")
 
 ##### Loading the data#####
 
 
-blup1 <- read.csv("21_MP2_1_blues_w.csv", header=T)
-blup2 <- read.csv("21_MP2_2_blues_w.csv", header=T)
+blup1 <- read.csv("trial1_blues.csv", header=T)
+blup2 <- read.csv("trial2_blues.csv", header=T)
 blup<- rbind(blup1, blup2)
-
-#blup <- read.csv("20_MP2_blues_w.csv")
 
 ##### MET Model 
 
 blup$trial <- as.factor(blup$trial)
 blup$germplasmName <- as.factor(blup$germplasmName)
 
-#blup$w_grain_length <- as.numeric(blup$w_grain_length)
-#blup$milling <- as.numeric(blup$milling)
-#blup$milling_w <- as.numeric(blup$milling_w)
-str(blup)
+str(blup) #make sure your traits are numerics
 
 
 # Calculate the BLUPS
@@ -57,8 +52,8 @@ write.csv(blups, "blups.csv" )
 ##### Loading the data for making a loop for all the traits#####
 
 
-blup1 <- read.csv("21_MP6-8_blups_w.csv", header=T)
-blup2 <- read.csv("22_MP6-8_blups_w.csv", header=T)
+blup1 <- read.csv("trial1.csv", header=T)
+blup2 <- read.csv("trial2.csv", header=T)
 
 selected_columns <- c("yield", "dth", "grain_length", "chalk", "milling", "trial", "germplasmName")  
 data1_subset <- blup1[, selected_columns] # when both data sets don't have same columns
@@ -105,9 +100,6 @@ combined_results <- do.call(rbind, lapply(names(adjusted_results), function(trai
 write.csv(combined_results, "blups.csv")
 
 
-#----End----#
+#----FIN----#
 
 
-# weights for ID's - adjust residual for further analysis 
-#vcov.mme < fit$vcov$C11_inv 
-#w <- diag(vcov.mme)
